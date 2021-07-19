@@ -19,5 +19,8 @@
   "homepage": "https://github.com/ducktrshessami/discord-interaction#readme",
   "peerDependencies": {
     "discord.js": "^12.5.3"
+  },
+  "dependencies": {
+    "phin": "^3.6.0"
   }
 }
