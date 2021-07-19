@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ducktrshessami/discord-interaction/issues"
   },
-  "homepage": "https://github.com/ducktrshessami/discord-interaction#readme"
+  "homepage": "https://github.com/ducktrshessami/discord-interaction#readme",
+  "peerDependencies": {
+    "discord.js": "^12.5.3"
+  }
 }
