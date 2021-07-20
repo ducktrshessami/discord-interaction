@@ -40,8 +40,8 @@ declare module "discord-interaction" {
         public readonly channel?: Channel;
         public readonly user?: User;
         public readonly member?: GuildMember;
-        public commandData?: CommandInteractionData;
-        public message?: Message;
+        public readonly commandData?: CommandInteractionData;
+        public readonly message?: Message;
 
         private token: String;
 
