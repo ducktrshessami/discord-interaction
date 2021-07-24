@@ -17,6 +17,11 @@ declare module "discord-interaction" {
         | "ROLE"
         | "MENTIONABLE";
 
+    type ComponentType =
+        | "ACTION_ROW"
+        | "BUTTON"
+        | "SELECT_MENU";
+
     type CommandOptionData = {
         name: String,
         type: CommandOptionType,
@@ -31,9 +36,9 @@ declare module "discord-interaction" {
         public readonly members: Collection<Snowflake, GuildMember>;
         public readonly roles: Collection<Snowflake, Role>;
         public readonly channels: Collection<Snowflake, Channel>;
+        public readonly customID?: String;
+        public readonly componentType?: ComponentType;
         public options: Array<CommandOptionData>;
-        public customID?: String;
-        public componentType: Number;
     }
 
     class Interaction {
