@@ -56,7 +56,7 @@ declare module "discord-interaction" {
 
         constructor(client: Client, data: Object);
 
-        public respond(data: Object): Promise<void>;
+        public respond?(data: Object): Promise<void>;
     }
 
     export = Interaction;
