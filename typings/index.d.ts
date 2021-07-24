@@ -1,4 +1,4 @@
-import { Channel, Client, Guild, GuildMember, Message, Role, Snowflake, User } from "discord.js";
+import { Channel, Client, Collection, Guild, GuildMember, Message, Role, Snowflake, User } from "discord.js";
 
 declare module "discord-interaction" {
     type InteractionType =
@@ -27,7 +27,11 @@ declare module "discord-interaction" {
     class CommandInteractionData {
         public readonly id: Snowflake;
         public readonly name: String;
-        public options?: Array<CommandOptionData>;
+        public readonly users: Collection<Snowflake, User>;
+        public readonly members: Collection<Snowflake, GuildMember>;
+        public readonly roles: Collection<Snowflake, Role>;
+        public readonly channels: Collection<Snowflake, Channel>;
+        public options: Array<CommandOptionData>;
         public customID?: String;
         public componentType: Number;
     }
