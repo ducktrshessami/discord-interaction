@@ -52,8 +52,6 @@ declare module "discord-interaction" {
         public readonly commandData?: CommandInteractionData;
         public readonly message?: Message;
 
-        private token: String;
-
         constructor(client: Client, data: Object);
 
         public respond?(data: Object): Promise<void>;
