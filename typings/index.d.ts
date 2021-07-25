@@ -47,6 +47,14 @@ declare module "discord-interaction" {
         data?: InteractionResponseData
     };
 
+    type ResponseOptions = {
+
+    };
+
+    type ResponseAdditions = {
+
+    };
+
     class CommandInteractionData {
         public readonly id: Snowflake;
         public readonly name: String;
