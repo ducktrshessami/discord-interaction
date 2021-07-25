@@ -1,4 +1,4 @@
-import { Channel, Client, Collection, Guild, GuildMember, Message, Role, Snowflake, User } from "discord.js";
+import { Channel, Client, Collection, Guild, GuildMember, Message, MessageEmbed, Role, Snowflake, StringResolvable, User } from "discord.js";
 
 declare module "discord-interaction" {
     type InteractionType =
@@ -22,11 +22,29 @@ declare module "discord-interaction" {
         | "BUTTON"
         | "SELECT_MENU";
 
+    type InteractionResponseType =
+        | "PONG"
+        | "CHANNEL_MESSAGE_WITH_SOURCE"
+        | "DEFERRED_CHANNEL_MESSAGE_WITH_SOURCE"
+        | "DEFERRED_UPDATE_MESSAGE"
+        | "UPDATE_MESSAGE";
+
     type CommandOptionData = {
         name: String,
         type: CommandOptionType,
         value?: String | Number | Boolean | User | Channel | Role,
         options?: Array<CommandOptionData>
+    };
+
+    type InteractionResponseData = {
+        tts?: Boolean,
+        content?: String,
+        embeds?: MessageEmbed | Array<MessageEmbed>
+    };
+
+    type InteractionResponse = {
+        type: InteractionResponseType,
+        data?: InteractionResponseData
     };
 
     class CommandInteractionData {
@@ -54,7 +72,13 @@ declare module "discord-interaction" {
 
         constructor(client: Client, data: Object);
 
-        public respond?(data: Object): Promise<void>;
+        public pong?(): Promise<void>;
+        public reply?(content?: StringResolvable | InteractionResponseData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
+        public defer?(ephemeral?: Boolean): Promise<void>;
+        public updateMessage?(content?: StringResolvable | InteractionResponseData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
+        public respond?(data: InteractionResponse): Promise<void>;
+
+        public static parseResponseData(data: InteractionResponse): Object;
     }
 
     export = Interaction;
