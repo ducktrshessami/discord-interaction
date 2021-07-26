@@ -42,6 +42,9 @@ declare module "discord-interaction" {
         | "DEFERRED_UPDATE_MESSAGE"
         | "UPDATE_MESSAGE";
 
+    type InteractionResponseFlag =
+        | "EPHEMERAL";
+
     type CommandOptionData = {
         name: String,
         type: CommandOptionType,
@@ -50,6 +53,15 @@ declare module "discord-interaction" {
     };
 
     type InteractionResponseData = {
+        tts?: Boolean,
+        content?: String,
+        embeds?: MessageEmbed | Array<MessageEmbed>,
+        allowedMentions?: MessageMentionOptions,
+        flags?: InteractionResponseFlag | Array<InteractionResponseFlag>,
+        components?: MessageComponent | Array<MessageComponent>
+    };
+
+    type InteractionResponseMessageData = {
         tts?: Boolean,
         content?: String,
         embeds?: MessageEmbed | Array<MessageEmbed>,
@@ -103,9 +115,9 @@ declare module "discord-interaction" {
         constructor(client: Client, data: Object);
 
         public pong?(): Promise<void>;
-        public reply?(content?: StringResolvable | InteractionResponseData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
+        public reply?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
         public defer?(ephemeral?: Boolean): Promise<void>;
-        public updateMessage?(content?: StringResolvable | InteractionResponseData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
+        public updateMessage?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
         public respond?(data: InteractionResponse): Promise<void>;
 
         public static parseResponseData(data: InteractionResponse): Object;
