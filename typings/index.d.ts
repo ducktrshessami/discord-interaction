@@ -1,4 +1,4 @@
-import { Channel, Client, Collection, Guild, GuildMember, Message, MessageEmbed, Role, Snowflake, StringResolvable, User } from "discord.js";
+import { Channel, Client, Collection, Guild, GuildMember, Message, MessageEmbed, MessageMentionOptions, Role, Snowflake, StringResolvable, User } from "discord.js";
 
 declare module "discord-interaction" {
     type InteractionType =
@@ -39,7 +39,9 @@ declare module "discord-interaction" {
     type InteractionResponseData = {
         tts?: Boolean,
         content?: String,
-        embeds?: MessageEmbed | Array<MessageEmbed>
+        embeds?: MessageEmbed | Array<MessageEmbed>,
+        allowedMentions?: MessageMentionOptions,
+        components?: MessageComponent | Array<MessageComponent>
     };
 
     type InteractionResponse = {
@@ -48,12 +50,19 @@ declare module "discord-interaction" {
     };
 
     type ResponseOptions = {
-
+        tts?: Boolean,
+        embeds?: MessageEmbed | Array<MessageEmbed>,
+        allowedMentions?: MessageMentionOptions,
+        components?: MessageComponent | Array<MessageComponent>
     };
 
-    type ResponseAdditions = {
+    type ResponseAdditions = MessageEmbed | MessageComponent | Array<MessageEmbed | MessageComponent>;
 
-    };
+    class MessageComponent {
+        constructor(data: Object | MessageComponent);
+
+        toJSON(): Object;
+    }
 
     class CommandInteractionData {
         public readonly id: Snowflake;
