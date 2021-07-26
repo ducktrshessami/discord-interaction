@@ -83,7 +83,7 @@ declare module "discord-interaction" {
 
     type ResponseAdditions = MessageEmbed | MessageComponent | Array<MessageEmbed | MessageComponent>;
 
-    class MessageComponent {
+    export class MessageComponent {
         constructor(data: Object | MessageComponent);
 
         toJSON(): Object;
@@ -101,7 +101,7 @@ declare module "discord-interaction" {
         public options: Array<CommandOptionData>;
     }
 
-    class Interaction {
+    export class Interaction {
         public readonly client: Client;
         public readonly id: Snowflake;
         public readonly type: InteractionType;
@@ -122,6 +122,4 @@ declare module "discord-interaction" {
 
         public static parseResponseData(data: InteractionResponse): Object;
     }
-
-    export = Interaction;
 }
