@@ -1,4 +1,17 @@
-import { Channel, Client, Collection, Guild, GuildMember, Message, MessageEmbed, MessageMentionOptions, Role, Snowflake, StringResolvable, User } from "discord.js";
+import {
+    Channel,
+    Client,
+    Collection,
+    Guild,
+    GuildMember,
+    Message,
+    MessageEmbed,
+    MessageMentionOptions,
+    Role,
+    Snowflake,
+    StringResolvable,
+    User
+} from "discord.js";
 
 declare module "discord-interaction" {
     type InteractionType =
