@@ -154,6 +154,7 @@ declare module "discord-interaction" {
         public respond?(data: InteractionResponse, fetch?: Boolean): Promise<void>;
 
         public originalResponse?(): Promise<FollowupMessage>;
+        public followup?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
 
         public static parseResponseData(data: InteractionResponse): Object;
     }
