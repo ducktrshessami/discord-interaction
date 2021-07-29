@@ -83,12 +83,6 @@ declare module "discord-interaction" {
 
     type ResponseAdditions = MessageEmbed | MessageComponent | Array<MessageEmbed | MessageComponent>;
 
-    export class MessageComponent {
-        constructor(data: Object | MessageComponent);
-
-        toJSON(): Object;
-    }
-
     class CommandInteractionData {
         public readonly id: Snowflake;
         public readonly name: String;
@@ -99,6 +93,21 @@ declare module "discord-interaction" {
         public readonly customID?: String;
         public readonly componentType?: ComponentType;
         public options: Array<CommandOptionData>;
+    }
+
+    export class MessageComponent {
+        constructor(data: Object | MessageComponent);
+
+        toJSON(): Object;
+    }
+
+    export class FollowupMessage {
+        public readonly id: Snowflake;
+
+        constructor(client: Client, data: Object);
+
+        public edit(content, options): Promise<FollowupMessage>;
+        public delete(): Promise<void>;
     }
 
     export class Interaction {
@@ -119,6 +128,8 @@ declare module "discord-interaction" {
         public defer?(ephemeral?: Boolean): Promise<void>;
         public updateMessage?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
         public respond?(data: InteractionResponse): Promise<void>;
+
+        public fetchResponse(): Promise<Message>;
 
         public static parseResponseData(data: InteractionResponse): Object;
     }
