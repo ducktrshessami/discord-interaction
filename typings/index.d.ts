@@ -127,6 +127,8 @@ declare module "discord-interaction" {
 
         public edit(content?: StringResolvable | FollowupMessageData, options?: FollowupMessageOptions | ResponseAdditions): Promise<FollowupMessage>;
         public delete(): Promise<void>;
+
+        public static parseFollowupData(data): Object;
     }
 
     export class FollowupManager extends BaseManager<Snowflake, FollowupMessage, FollowupResolvable> {
