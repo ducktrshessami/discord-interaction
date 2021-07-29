@@ -1,4 +1,5 @@
 import {
+    BaseManager,
     Channel,
     Client,
     Collection,
@@ -81,7 +82,22 @@ declare module "discord-interaction" {
         components?: MessageComponent | Array<MessageComponent>
     };
 
+    type FollowupMessageData = {
+        content?: String,
+        embeds?: MessageEmbed | Array<MessageEmbed>,
+        allowedMentions?: MessageMentionOptions,
+        components?: MessageComponent | Array<MessageComponent>
+    };
+
+    type FollowupMessageOptions = {
+        embeds?: MessageEmbed | Array<MessageEmbed>,
+        allowedMentions?: MessageMentionOptions,
+        components?: MessageComponent | Array<MessageComponent>
+    };
+
     type ResponseAdditions = MessageEmbed | MessageComponent | Array<MessageEmbed | MessageComponent>;
+
+    type FollowupResolvable = Snowflake | FollowupMessage;
 
     class CommandInteractionData {
         public readonly id: Snowflake;
@@ -102,18 +118,26 @@ declare module "discord-interaction" {
     }
 
     export class FollowupMessage {
+        public readonly client: Client;
+        public readonly interaction: Interaction;
         public readonly id: Snowflake;
+        public deleted: Boolean;
 
-        constructor(client: Client, data: Object);
+        constructor(interaction: Interaction, data: Object);
 
-        public edit(content, options): Promise<FollowupMessage>;
+        public edit(content?: StringResolvable | FollowupMessageData, options?: FollowupMessageOptions | ResponseAdditions): Promise<FollowupMessage>;
         public delete(): Promise<void>;
+    }
+
+    export class FollowupManager extends BaseManager<Snowflake, FollowupMessage, FollowupResolvable> {
+        constructor(client: Client, iterable?: Iterable<FollowupMessage>);
     }
 
     export class Interaction {
         public readonly client: Client;
         public readonly id: Snowflake;
         public readonly type: InteractionType;
+        public readonly followups: FollowupManager;
         public readonly guild?: Guild;
         public readonly channel?: Channel;
         public readonly user?: User;
