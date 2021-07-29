@@ -148,12 +148,12 @@ declare module "discord-interaction" {
         constructor(client: Client, data: Object);
 
         public pong?(): Promise<void>;
-        public reply?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
-        public defer?(ephemeral?: Boolean): Promise<void>;
-        public updateMessage?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
+        public reply?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
+        public defer?(ephemeral?: Boolean): Promise<FollowupMessage | Message>;
+        public updateMessage?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<Message>;
         public respond?(data: InteractionResponse): Promise<void>;
 
-        public fetchResponse(): Promise<Message>;
+        public fetchResponse(): Promise<FollowupMessage>;
 
         public static parseResponseData(data: InteractionResponse): Object;
     }
