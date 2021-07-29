@@ -151,9 +151,9 @@ declare module "discord-interaction" {
         public reply?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
         public defer?(ephemeral?: Boolean): Promise<FollowupMessage | Message>;
         public updateMessage?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<Message>;
-        public respond?(data: InteractionResponse): Promise<void>;
+        public respond?(data: InteractionResponse, fetch?: Boolean): Promise<void>;
 
-        public fetchResponse(): Promise<FollowupMessage>;
+        public originalResponse?(): Promise<FollowupMessage>;
 
         public static parseResponseData(data: InteractionResponse): Object;
     }
