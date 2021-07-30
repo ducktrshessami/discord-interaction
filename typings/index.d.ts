@@ -126,7 +126,7 @@ declare module "discord-interaction" {
         constructor(client: Client, data: Object, interaction: Interaction, channel: TextChannel | DMChannel | NewsChannel);
 
         public edit(content?: StringResolvable | FollowupMessageData, options?: FollowupMessageOptions | ResponseAdditions): Promise<FollowupMessage>;
-        public delete(): Promise<void>;
+        public delete(): Promise<FollowupMessage>;
 
         public static parseFollowupData(data): Object;
     }
