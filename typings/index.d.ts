@@ -4,6 +4,7 @@ import {
     Client,
     Collection,
     DMChannel,
+    EmojiResolvable,
     Guild,
     GuildMember,
     Message,
@@ -48,6 +49,13 @@ declare module "discord-interaction" {
 
     type InteractionResponseFlag =
         | "EPHEMERAL";
+
+    type ButtonStyle =
+        | "PRIMARY"
+        | "SECONDARY"
+        | "SUCCESS"
+        | "DANGER"
+        | "LINK";
 
     type CommandOptionData = {
         name: String,
@@ -98,6 +106,10 @@ declare module "discord-interaction" {
         components?: MessageComponent | Array<MessageComponent>
     };
 
+    type SelectMenuOption = {
+
+    };
+
     type ResponseAdditions = MessageEmbed | MessageComponent | Array<MessageEmbed | MessageComponent>;
 
     type FollowupResolvable = Snowflake | FollowupMessage;
@@ -118,7 +130,33 @@ declare module "discord-interaction" {
     }
 
     export class MessageComponent {
+        public type: ComponentType;
+
         constructor(data: Object | MessageComponent);
+
+        toJSON(): Object;
+    }
+
+    export class ActionRowComponent extends MessageComponent {
+        public readonly type: "ACTION_ROW";
+
+        constructor(data: Object | ActionRowComponent);
+
+        toJSON(): Object;
+    }
+
+    export class ButtonComponent extends MessageComponent {
+        public readonly type: "BUTTON";
+
+        constructor(data: Object | ButtonComponent);
+
+        toJSON(): Object;
+    }
+
+    export class SelectMenuComponent extends MessageComponent {
+        public readonly type: "SELECT_MENU";
+
+        constructor(data: Object | SelectMenuComponent);
 
         toJSON(): Object;
     }
