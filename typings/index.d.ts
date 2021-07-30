@@ -1,15 +1,19 @@
 import {
+    BaseManager,
     Channel,
     Client,
     Collection,
+    DMChannel,
     Guild,
     GuildMember,
     Message,
     MessageEmbed,
     MessageMentionOptions,
+    NewsChannel,
     Role,
     Snowflake,
     StringResolvable,
+    TextChannel,
     User
 } from "discord.js";
 
@@ -81,13 +85,22 @@ declare module "discord-interaction" {
         components?: MessageComponent | Array<MessageComponent>
     };
 
+    type FollowupMessageData = {
+        content?: String,
+        embeds?: MessageEmbed | Array<MessageEmbed>,
+        allowedMentions?: MessageMentionOptions,
+        components?: MessageComponent | Array<MessageComponent>
+    };
+
+    type FollowupMessageOptions = {
+        embeds?: MessageEmbed | Array<MessageEmbed>,
+        allowedMentions?: MessageMentionOptions,
+        components?: MessageComponent | Array<MessageComponent>
+    };
+
     type ResponseAdditions = MessageEmbed | MessageComponent | Array<MessageEmbed | MessageComponent>;
 
-    export class MessageComponent {
-        constructor(data: Object | MessageComponent);
-
-        toJSON(): Object;
-    }
+    type FollowupResolvable = Snowflake | FollowupMessage;
 
     class CommandInteractionData {
         public readonly id: Snowflake;
@@ -101,10 +114,32 @@ declare module "discord-interaction" {
         public options: Array<CommandOptionData>;
     }
 
+    export class MessageComponent {
+        constructor(data: Object | MessageComponent);
+
+        toJSON(): Object;
+    }
+
+    export class FollowupMessage extends Message {
+        public readonly interaction: Interaction;
+
+        constructor(client: Client, data: Object, interaction: Interaction, channel: TextChannel | DMChannel | NewsChannel);
+
+        public edit(content?: StringResolvable | FollowupMessageData, options?: FollowupMessageOptions | ResponseAdditions): Promise<FollowupMessage>;
+        public delete(): Promise<void>;
+
+        public static parseFollowupData(data): Object;
+    }
+
+    export class FollowupManager extends BaseManager<Snowflake, FollowupMessage, FollowupResolvable> {
+        constructor(client: Client, iterable?: Iterable<FollowupMessage>);
+    }
+
     export class Interaction {
         public readonly client: Client;
         public readonly id: Snowflake;
         public readonly type: InteractionType;
+        public readonly followups: FollowupManager;
         public readonly guild?: Guild;
         public readonly channel?: Channel;
         public readonly user?: User;
@@ -115,10 +150,13 @@ declare module "discord-interaction" {
         constructor(client: Client, data: Object);
 
         public pong?(): Promise<void>;
-        public reply?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
-        public defer?(ephemeral?: Boolean): Promise<void>;
-        public updateMessage?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<void>;
-        public respond?(data: InteractionResponse): Promise<void>;
+        public reply?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
+        public defer?(ephemeral?: Boolean): Promise<FollowupMessage | Message>;
+        public updateMessage?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<Message>;
+        public respond?(data: InteractionResponse, fetch?: Boolean): Promise<void | FollowupMessage>;
+
+        public originalResponse?(): Promise<FollowupMessage>;
+        public followup?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
 
         public static parseResponseData(data: InteractionResponse): Object;
     }
