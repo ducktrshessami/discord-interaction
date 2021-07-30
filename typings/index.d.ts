@@ -3,14 +3,17 @@ import {
     Channel,
     Client,
     Collection,
+    DMChannel,
     Guild,
     GuildMember,
     Message,
     MessageEmbed,
     MessageMentionOptions,
+    NewsChannel,
     Role,
     Snowflake,
     StringResolvable,
+    TextChannel,
     User
 } from "discord.js";
 
@@ -117,13 +120,10 @@ declare module "discord-interaction" {
         toJSON(): Object;
     }
 
-    export class FollowupMessage {
-        public readonly client: Client;
+    export class FollowupMessage extends Message {
         public readonly interaction: Interaction;
-        public readonly id: Snowflake;
-        public deleted: Boolean;
 
-        constructor(interaction: Interaction, data: Object);
+        constructor(client: Client, data: Object, interaction: Interaction, channel: TextChannel | DMChannel | NewsChannel);
 
         public edit(content?: StringResolvable | FollowupMessageData, options?: FollowupMessageOptions | ResponseAdditions): Promise<FollowupMessage>;
         public delete(): Promise<void>;
