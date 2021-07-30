@@ -109,9 +109,12 @@ declare module "discord-interaction" {
         public readonly members: Collection<Snowflake, GuildMember>;
         public readonly roles: Collection<Snowflake, Role>;
         public readonly channels: Collection<Snowflake, Channel>;
-        public readonly customID?: String;
-        public readonly componentType?: ComponentType;
         public options: Array<CommandOptionData>;
+    }
+
+    class ComponentInteractionData {
+        public readonly customID: String;
+        public readonly componentType: ComponentType;
     }
 
     export class MessageComponent {
@@ -145,6 +148,7 @@ declare module "discord-interaction" {
         public readonly user?: User;
         public readonly member?: GuildMember;
         public readonly commandData?: CommandInteractionData;
+        public readonly componentData?: ComponentInteractionData;
         public readonly message?: Message;
 
         constructor(client: Client, data: Object);
