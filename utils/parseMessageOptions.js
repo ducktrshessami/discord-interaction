@@ -1,8 +1,9 @@
 const { MessageEmbed } = require("discord.js");
 const MessageComponent = require("../lib/MessageComponent");
 
-function parseMessageOptions(content, options = {}) {
+function parseMessageOptions(content, options = {}, editing = false) {
     const data = {};
+    let flags = [];
     let embeds = [];
     let components = [];
 
@@ -28,6 +29,9 @@ function parseMessageOptions(content, options = {}) {
         data.allowedMentions = options.allowedMentions;
         embeds = embeds.concat(options.embeds);
         components = components.concat(options.components);
+        if (!editing) {
+            flags = flags.concat(options.flags);
+        }
     }
 
     // Parse content
@@ -40,14 +44,21 @@ function parseMessageOptions(content, options = {}) {
         data.allowedMentions = content.allowedMentions;
         embeds = embeds.concat(content.embeds);
         components = components.concat(content.components);
+        if (!editing) {
+            flags = flags.concat(content.flags);
+        }
     }
     else {
         data.content = content.toString();
     }
 
-    // Handle additions
+    // Handle arrays
+    flags = flags.filter(item => item);
     embeds = embeds.filter(item => item);
     components = components.filter(item => item);
+    if (!editing && flags.length) {
+        data.flags = flags;
+    }
     if (embeds.length) {
         data.embeds = embeds;
     }
