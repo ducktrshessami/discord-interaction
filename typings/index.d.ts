@@ -49,6 +49,10 @@ declare module "discord-interaction" {
     type InteractionResponseFlag =
         | "EPHEMERAL";
 
+    type FollowupMessageFlags = {
+        EPHEMERAL: Number
+    };
+
     type CommandOptionData = {
         name: String,
         type: CommandOptionType,
@@ -116,6 +120,8 @@ declare module "discord-interaction" {
     export class FollowupMessage extends Message {
         public readonly interaction: Interaction;
 
+        public static readonly Flags: FollowupMessageFlags;
+
         constructor(client: Client, data: Object, interaction: Interaction, channel: TextChannel | DMChannel | NewsChannel);
 
         public edit(content?: StringResolvable | FollowupMessageData, options?: FollowupMessageOptions | ResponseAdditions): Promise<FollowupMessage>;
@@ -148,7 +154,7 @@ declare module "discord-interaction" {
         public updateMessage?(content?: StringResolvable | FollowupMessageData, options?: FollowupMessageOptions | ResponseAdditions): Promise<Message>;
         public respond?(data: InteractionResponse, fetch?: Boolean): Promise<void | FollowupMessage>;
 
-        public originalResponse?(): Promise<FollowupMessage>;
+        public originalResponse?(ephemeral?: Boolean): Promise<FollowupMessage>;
         public followup?(content?: StringResolvable | InteractionResponseData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
 
         public static parseResponseData(data: InteractionResponse): Object;
