@@ -65,14 +65,6 @@ declare module "discord-interaction" {
         components?: MessageComponent | Array<MessageComponent>
     };
 
-    type InteractionResponseMessageData = {
-        tts?: Boolean,
-        content?: String,
-        embeds?: MessageEmbed | Array<MessageEmbed>,
-        allowedMentions?: MessageMentionOptions,
-        components?: MessageComponent | Array<MessageComponent>
-    };
-
     type InteractionResponse = {
         type: InteractionResponseType,
         data?: InteractionResponseData
@@ -82,6 +74,7 @@ declare module "discord-interaction" {
         tts?: Boolean,
         embeds?: MessageEmbed | Array<MessageEmbed>,
         allowedMentions?: MessageMentionOptions,
+        flags?: InteractionResponseFlag | Array<InteractionResponseFlag>,
         components?: MessageComponent | Array<MessageComponent>
     };
 
@@ -150,13 +143,13 @@ declare module "discord-interaction" {
         constructor(client: Client, data: Object);
 
         public pong?(): Promise<void>;
-        public reply?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
+        public reply?(content?: StringResolvable | InteractionResponseData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
         public defer?(ephemeral?: Boolean): Promise<FollowupMessage | Message>;
-        public updateMessage?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<Message>;
+        public updateMessage?(content?: StringResolvable | FollowupMessageData, options?: FollowupMessageOptions | ResponseAdditions): Promise<Message>;
         public respond?(data: InteractionResponse, fetch?: Boolean): Promise<void | FollowupMessage>;
 
         public originalResponse?(): Promise<FollowupMessage>;
-        public followup?(content?: StringResolvable | InteractionResponseMessageData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
+        public followup?(content?: StringResolvable | InteractionResponseData, options?: ResponseOptions | ResponseAdditions): Promise<FollowupMessage>;
 
         public static parseResponseData(data: InteractionResponse): Object;
     }
